@@ -1,0 +1,44 @@
+services:
+  dev:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ..:/workspaces/coordinatetbi:cached
+      - coordinatetbi-uv-cache:/home/vscode/.cache/uv
+      - coordinatetbi-playwright-cache:/home/vscode/.cache/ms-playwright
+      - coordinatetbi-npm-cache:/home/vscode/.npm
+      - coordinatetbi-pnpm-store:/home/vscode/.local/share/pnpm/store
+    working_dir: /workspaces/coordinatetbi
+    command: sleep infinity
+    environment:
+      PYTHONUNBUFFERED: "1"
+      UV_LINK_MODE: copy
+      DATABASE_URL: postgresql+psycopg://postgres:postgres@postgres:5432/coordinatetbi
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: coordinatetbi
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - coordinatetbi-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d coordinatetbi"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  coordinatetbi-postgres-data:
+  coordinatetbi-uv-cache:
+  coordinatetbi-playwright-cache:
+  coordinatetbi-npm-cache:
+  coordinatetbi-pnpm-store:
