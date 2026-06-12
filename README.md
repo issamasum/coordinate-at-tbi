@@ -8,3 +8,28 @@ At a high level, the system has the following mving parts:
 - Shared Python domain code in core/
 - Supporting development infrastucture in .devcontainer/
 
+# Development Setup
+
+this project relies on Dev container for a fully reproducible development environment, and *uv* as the Python dependecy manager.
+
+## Prerequisites
+
+Before you coding, make sure you have the following installed on your machine:
+- Docker Desketop
+- VS Code
+- Dev Containers extension for VS Code
+
+## Project structure
+
+coordinateatetbi/
+|--- .devcontainer/
+    |--- devcontainer.json
+    |--- compose.yaml
+    |--- Dockerfile
+|--- api/
+|--- core/
+|--- pyproject.toml
+|--- README.md
+
+
+
