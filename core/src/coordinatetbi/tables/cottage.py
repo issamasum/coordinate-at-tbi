@@ -1,37 +1,37 @@
 # __author__ = Issa Masumbuko
 
 """Database-backed cottage models"""
+
 import enum
+from typing import TYPE_CHECKING, List
 
+from sqlalchemy import Boolean, Column, Integer, Text, UniqueConstraint
+from sqlmodel import Field, Relationship, SQLModel, Enum
 
-from sqlalchemy import Column, Integer, Text, UniqueConstraint
-from sqlmodel import (
-    Field, 
-    SQLModel,
-    Enum,
-)
+if TYPE_CHECKING:
+    from .dorms import Dorm
+
 
 class CottageGender(str, enum.Enum):
-    """Enumeration for cottage gender designations."""
     MALE = "Male"
     FEMALE = "Female"
-    
+
+
 class Cottage(SQLModel, table=True):
-    """Represents a cottage used for overnight events organized by the Triangle Baha'i Institute."""
+    """Represents a cottage used for overnight events at the Triangle Baha'i Institute."""
+
+    __tablename__ = "cottage"
     __table_args__ = (
         UniqueConstraint("name", name="unique_cottage_name"),
     )
-    
-    id: int = Field(
-        sa_column=Column(Integer, primary_key=True, autoincrement=True)
-    )
-    name: str = Field(
-            sa_column=Column(Text, nullable=False)
-    )
+
+    id: int = Field(sa_column=Column(Integer, primary_key=True, autoincrement=True))
+    name: str = Field(sa_column=Column(Text, nullable=False))
     gender: CottageGender = Field(
         sa_column=Column(
             Enum(CottageGender, values_callable=lambda e: [m.value for m in e]),
-            nullable=False
+            nullable=False,
         )
-    )  
-    is_available: bool = Field()
+    )
+    is_active: bool = Field(sa_column=Column(Boolean, nullable=False, default=True))
+    rooms: List["Dorm"] = Relationship(back_populates="cottage")

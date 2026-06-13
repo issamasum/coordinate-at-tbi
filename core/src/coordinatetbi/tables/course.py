@@ -1,28 +1,31 @@
 # __author__ = Issa Masumbuko
 
-"""Database-backed books models"""
+"""Database-backed course (book) models"""
+
+from typing import TYPE_CHECKING, List, Optional
+
+from sqlalchemy import Column, Integer, Text, UniqueConstraint
+from sqlmodel import Field, Relationship, SQLModel
+
+if TYPE_CHECKING:
+    from .course_progression import CourseProgression
+    from .event_course import EventCourse
+    from .study_circles import StudyCircle
 
 
-from sqlalchemy import Column, Integer, Text
-from sqlmodel import (
-    Field, 
-    SQLModel,
-    UniqueConstraint,
-)
 class Course(SQLModel, table=True):
-    """Represents Institute Courses offered by the Triangle Baha'i Institute."""
+    """Represents an Institute Course (Book) offered by the Triangle Baha'i Institute."""
 
+    __tablename__ = "course"
     __table_args__ = (
         UniqueConstraint("name", name="unique_course_name"),
         UniqueConstraint("title", name="unique_course_title"),
-    )  
+    )
 
-    id: int = Field(
-        sa_column=Column(Integer, primary_key=True, autoincrement=True)
-    )
-    name: str = Field(
-            sa_column=Column(Text, nullable=False)
-    )
-    title: str = Field(
-            sa_column=Column(Text, nullable=False)
-    )
+    id: int = Field(sa_column=Column(Integer, primary_key=True, autoincrement=True))
+    name: str = Field(sa_column=Column(Text, nullable=False))
+    title: str = Field(sa_column=Column(Text, nullable=False))
+    description: Optional[str] = Field(default=None, sa_column=Column(Text, nullable=True))
+    event_courses: List["EventCourse"] = Relationship(back_populates="course")
+    progressions: List["CourseProgression"] = Relationship(back_populates="course")
+    study_circles: List["StudyCircle"] = Relationship(back_populates="course")

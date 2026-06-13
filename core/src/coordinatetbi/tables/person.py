@@ -4,66 +4,102 @@
 
 import enum
 from datetime import datetime
+from typing import TYPE_CHECKING, List, Optional
 
 from sqlalchemy import Column, DateTime, Integer, Text
-from sqlmodel import (
-    Field, 
-    SQLModel,
-    func,
-    Enum,
-)
+from sqlmodel import Field, Relationship, SQLModel, func, Enum
+
+if TYPE_CHECKING:
+    from .guardian import Guardian
+    from .user import User
+    from .course_progression import CourseProgression
+    from .event import EventParticipant
+    from .study_circles import StudyCircleMember
+
+
 class CoordinatorRole(str, enum.Enum):
-    """Coordinating role a person can hold."""
     MAIN_COORDINATOR = "main coordinator"
     ASSISTANT_COORDINATOR = "assistant coordinator"
 
+
 class Gender(str, enum.Enum):
-    """Represents a person's gender."""
     MALE = "Male"
     FEMALE = "Female"
     OTHER = "Other"
 
 
-class People(SQLModel, table=True):
+class Person(SQLModel, table=True):
     """Represents a person involved with the Triangle Baha'i Institute activities."""
+
+    __tablename__ = "person"
+
     id: int = Field(
-        sa_column=Column(Integer, primary_key=True, autoincrement=True)
-    )   
-    name: str = Field(
-        sa_column=Column(Text, nullable=False)
-    )
-    email: str = Field(
-        sa_column=Column(Text, nullable=True)
-    )
-    phone: int = Field(
-        sa_column=Column(Integer, nullable=True)
-    )
-    gender:Gender = Field(
         sa_column=Column(
-            Enum(Gender, values_callable=lambda e: [m.value for m in e]),
-            nullable=True
-        )    
+            Integer, 
+            primary_key=True, 
+            autoincrement=True
+            )
     )
-    coordinator_role: CoordinatorRole = Field(
+    name: str = Field(
+        sa_column=Column(
+            Text, 
+            nullable=False
+            )
+    )
+    email: Optional[str] = Field(
+        default=None, 
+        sa_column=Column(
+            Text, 
+            nullable=True
+            )
+    )
+    phone: Optional[str] = Field(
+        default=None, 
+        sa_column=Column(
+            Text, 
+            nullable=True
+            )
+    )
+    adress: Optional[str] = Field(
+        default=None, 
+        sa_column=Column(
+            Text, 
+            nullable=True
+            )
+    )
+    gender: Optional[Gender] = Field(
+        default=None,
+        sa_column=Column(
+            Enum(Gender, values_callable=lambda e: [m.value for m in e]), nullable=True
+        ),
+    )
+    coordinator_role: Optional[CoordinatorRole] = Field(
+        default=None,
         sa_column=Column(
             Enum(CoordinatorRole, values_callable=lambda e: [m.value for m in e]),
-            nullable=True
-        )
-    )
-    data_of_birth: datetime = Field(
-        sa_column=Column(
-            DateTime(timezone=False),
-            server_default=None,
-            nullable=True
+            nullable=True,
         ),
+    )
+    date_of_birth: Optional[datetime] = Field(
+        default=None, sa_column=Column(DateTime(timezone=False), nullable=True)
+    )
+    created_at: datetime = Field(
+        sa_column=Column(DateTime(timezone=True), server_default=func.now(), nullable=False),
         default=None,
     )
-    deleted_at: datetime = Field(
-        sa_column=Column(
-            DateTime(timezone=True),
-            server_default=func.now(),
-            onupdate=func.now(),
-            nullable=False,
-        ),
-        default=None,
+    deleted_at: Optional[datetime] = Field(
+        default=None, sa_column=Column(DateTime(timezone=True), nullable=True)
     )
+    user: Optional["User"] = Relationship(back_populates="person")
+    guardians: List["Guardian"] = Relationship(
+        back_populates="people",
+        sa_relationship_kwargs={
+            "secondary": "personguardian", "lazy": "select"
+            },
+    )
+
+    course_progressions: List["CourseProgression"] = Relationship(back_populates="person")
+
+    event_participations: List["EventParticipant"] = Relationship(back_populates="person")
+
+    study_circle_memberships: List["StudyCircleMember"] = Relationship(back_populates="person")
