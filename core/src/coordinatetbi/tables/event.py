@@ -18,9 +18,9 @@ if TYPE_CHECKING:
     from .person import Person
     from .event_participant import EventParticipant
     from .event_course import EventCourse
-    from .dorms import EventDormRoom
+    from .dorm import EventDormRoom
     from .orientation import OrientationGroup
-    from .study_circles import StudyCircle, StudyCircleSession
+    from .study_circle import StudyCircle, StudyCircleSession
 
 
 class EventStatus(str, enum.Enum):
@@ -49,9 +49,6 @@ class Event(SQLModel, table=True):
         sa_column=Column(DateTime(timezone=False), nullable=False)
     )
     overnight: bool = Field(sa_column=Column(Boolean, nullable=False, default=False))
-    has_orientation: bool = Field(
-        sa_column=Column(Boolean, nullable=False, default=False)
-    )
     dorm_strategy: Optional[DormStrategy] = Field(
         default=None,
         sa_column=Column(

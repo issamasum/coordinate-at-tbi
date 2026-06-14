@@ -3,12 +3,12 @@ from .guardian import Guardian, PersonGuardian, GuardianRelationship
 from .course import Course
 from .course_progression import CourseProgression, CourseProgressionStatus
 from .cottage import Cottage, CottageGender
-from .dorms import Dorm, EventDormRoom, DormAssignment, DormAssignmentStatus
+from .dorm import Dorm, EventDormRoom, DormAssignment, DormAssignmentStatus
 from .event import Event, EventStatus, DormStrategy
 from .event_course import EventCourse
 from .event_participant import EventParticipantRole, ParticipantRole, OvernightStatus, AttendanceStatus, EventParticipant
 from .orientation import OrientationGroup, OrientationParticipant, OrientationGroupStatus, OrientationParticipantRole
-from .study_circles import (
+from .study_circle import (
     StudyCircle, StudyCircleMember, StudyCircleSession, StudyCircleAttendance,
     StudyCircleStatus, MemberStatus, SessionStatus, AttendanceRole,
 )

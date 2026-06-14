@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
 class UserRole(str, enum.Enum):
     MAIN_COORDINATOR = "main_coordinator"
-    COORDINATOR = "coordinator"
+    ASSISTANT_COORDINATOR = " assistent coordinator"
 
 
 class User(SQLModel, table=True):

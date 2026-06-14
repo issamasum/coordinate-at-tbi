@@ -23,7 +23,7 @@ from sqlmodel import Field, Relationship, SQLModel, Enum
 if TYPE_CHECKING:
     from .person import Person
     from .event import Event
-    from .dorms import DormAssignment
+    from .dorm import DormAssignment
     from .orientation import OrientationParticipant
 
 

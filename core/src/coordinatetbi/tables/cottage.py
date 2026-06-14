@@ -9,7 +9,7 @@ from sqlalchemy import Boolean, Column, Integer, Text, UniqueConstraint
 from sqlmodel import Field, Relationship, SQLModel, Enum
 
 if TYPE_CHECKING:
-    from .dorms import Dorm
+    from .dorm import Dorm
 
 
 class CottageGender(str, enum.Enum):

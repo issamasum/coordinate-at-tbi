@@ -14,7 +14,7 @@ if TYPE_CHECKING:
     from .user import User
     from .course_progression import CourseProgression
     from .event import EventParticipant
-    from .study_circles import StudyCircleMember
+    from .study_circle import StudyCircleMember
 
 
 class CoordinatorRole(str, enum.Enum):

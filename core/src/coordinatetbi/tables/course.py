@@ -10,7 +10,7 @@ from sqlmodel import Field, Relationship, SQLModel
 if TYPE_CHECKING:
     from .course_progression import CourseProgression
     from .event_course import EventCourse
-    from .study_circles import StudyCircle
+    from .study_circle import StudyCircle
 
 
 class Course(SQLModel, table=True):
