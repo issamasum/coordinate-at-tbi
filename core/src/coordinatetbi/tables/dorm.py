@@ -43,7 +43,7 @@ class Dorm(SQLModel, table=True):
 
 
 class EventDormRoom(SQLModel, table=True):
-    """Represents a dorm room activated for a specific overnight event."""
+    """Represents a dorm room used for a specific overnight event."""
 
     __tablename__ = "eventdormroom"
     __table_args__ = (
@@ -59,9 +59,7 @@ class EventDormRoom(SQLModel, table=True):
     )
 
     dorm: Optional["Dorm"] = Relationship(back_populates="event_dorm_rooms")
-
     event: Optional["Event"] = Relationship(back_populates="event_dorm_rooms")
-
     assignments: List["DormAssignment"] = Relationship(back_populates="event_dorm_room")
 
 
@@ -86,9 +84,7 @@ class DormAssignment(SQLModel, table=True):
             nullable=False,
         )
     )
-
     event_dorm_room: Optional["EventDormRoom"] = Relationship(back_populates="assignments")
-
     participant: Optional["EventParticipant"] = Relationship(
         back_populates="dorm_assignment"
     )

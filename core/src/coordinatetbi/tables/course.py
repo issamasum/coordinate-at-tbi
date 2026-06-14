@@ -1,6 +1,6 @@
 # __author__ = Issa Masumbuko
 
-"""Database-backed course (book) models"""
+"""Database-backed course models"""
 
 from typing import TYPE_CHECKING, List, Optional
 
@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 
 
 class Course(SQLModel, table=True):
-    """Represents an Institute Course (Book) offered by the Triangle Baha'i Institute."""
+    """Represents a Ruhi Institute Course."""
 
     __tablename__ = "course"
     __table_args__ = (

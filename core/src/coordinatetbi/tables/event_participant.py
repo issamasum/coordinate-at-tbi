@@ -1,18 +1,6 @@
 # __author__ = Issa Masumbuko
 
-"""Database-backed EventParticipant and EventParticipantRole models.
-
-Separated from event.py so that dorms.py and orientation.py can import
-EventParticipant without pulling in Event, which would create a circular
-dependency (both of those modules are also imported by event.py).
-
-Import chain after the split:
-    event.py          → event_participant.py  (TYPE_CHECKING only)
-    event_participant.py → event.py           (TYPE_CHECKING only)
-    dorms.py          → event_participant.py  (TYPE_CHECKING only)
-    orientation.py    → event_participant.py  (TYPE_CHECKING only)
-    person.py         → event_participant.py  (TYPE_CHECKING only)
-"""
+"""Database-backed EventParticipant and EventParticipantRole models."""
 
 import enum
 from typing import TYPE_CHECKING, List, Optional

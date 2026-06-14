@@ -97,9 +97,6 @@ class Person(SQLModel, table=True):
             "secondary": "personguardian", "lazy": "select"
             },
     )
-
     course_progressions: List["CourseProgression"] = Relationship(back_populates="person")
-
     event_participations: List["EventParticipant"] = Relationship(back_populates="person")
-
     study_circle_memberships: List["StudyCircleMember"] = Relationship(back_populates="person")

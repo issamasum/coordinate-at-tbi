@@ -1,11 +1,6 @@
 # __author__ = Issa Masumbuko
 
-"""Database-backed Event model.
-
-Enums that are event-scoped but referenced by EventParticipant live in
-event_participant.py to keep imports clean — see that module for
-OvernightStatus, AttendanceStatus, and ParticipantRole.
-"""
+"""Database-backed Event model."""
 
 import enum
 from datetime import datetime
