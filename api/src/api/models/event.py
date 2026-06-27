@@ -15,6 +15,7 @@ from .orientation import OrientationGroupSummary
 from .dorm import DormAssignmentResponse
 
 
+# ---- Event models ----
 
 class CreateEventRequest(BaseModel):
     """Payload for creating a new event."""
@@ -64,57 +65,20 @@ class EventDetailResponse(BaseModel):
     dorm_assignments: list[DormAssignmentResponse] = []
 
 
-# Event participants Models
-
+# ---- Event participant models ----
 
 class AddEventParticipantsRequest(BaseModel):
-    """Payload for adding one or more participants to an event.
-    Used for uploading a roster. 
-    """
+    """Payload for adding one or more participants to an event."""
     person_ids: list[int]
 
 
-class RemoveEventParticipantsRequest(BaseModel):
-    """Payload for removing one or more participants from an event in bulk."""
-    participant_ids: list[int]  
-
-
-class UpdateParticipantRolesRequest(BaseModel):
-    """Payload for setting all roles of a single participant.
+class UpdateEventParticipantRequest(BaseModel):
+    """Payload for updating a single participant's roles, attendance, or overnight status.
+    Only fields that are set will be updated.
     """
-    roles: list[ParticipantRole]
-
-
-class ParticipantRoleUpdate(BaseModel):
-    participant_id: int  
-    roles: list[ParticipantRole]
-
-
-class BulkUpdateParticipantRolesRequest(BaseModel):
-    """Payload for updating roles for multiple participants at once."""
-    updates: list[ParticipantRoleUpdate]
-
-
-class AttendanceUpdate(BaseModel):
-    """A single attendance record used in bulk requests and single-participant updates."""
-    participant_id: int  
-    attendance_status: AttendanceStatus
-
-
-class BulkAttendanceUpdateRequest(BaseModel):
-    """Payload for marking attendance for multiple participants at once."""
-    updates: list[AttendanceUpdate]
-
-
-class OvernightUpdate(BaseModel):
-    """A single overnight record used in bulk requests and single-participant updates."""
-    participant_id: int
-    overnight_status: OvernightStatus
-
-
-class BulkUpdateOvernightRequest(BaseModel):
-    """Payload for updating overnight status for multiple participants at once."""
-    updates: list[OvernightUpdate]
+    roles: Optional[list[ParticipantRole]] = None
+    attendance_status: Optional[AttendanceStatus] = None
+    overnight_status: Optional[OvernightStatus] = None
 
 
 class EventParticipantResponse(BaseModel):

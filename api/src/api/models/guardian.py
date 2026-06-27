@@ -5,6 +5,8 @@
 from typing import Optional
 from pydantic import BaseModel
 
+from tables.guardian import GuardianRelationship
+
 
 class CreateGuardianRequest(BaseModel):
     """Payload for adding a new guardian into the database."""
@@ -23,12 +25,9 @@ class UpdateGuardianRequest(BaseModel):
 
 
 class LinkGuardianRequest(BaseModel):
-    """Payload for linking an existing guardian to a person.
-    Use when the guardian already exists and you only need to establish or
-    update the relationship label.
-    """
+    """Payload for linking an existing guardian to a person."""
     guardian_id: int
-    relationship: str 
+    relationship: GuardianRelationship
 
 
 class GuardianResponse(BaseModel):

@@ -10,8 +10,7 @@ from tables.study_circle import StudyCircleStatus, MemberStatus, SessionStatus, 
 
 
 class CreateStudyCircleRequest(BaseModel):
-    """Payload for creating a new study circle.
-    """
+    """Payload for creating a new study circle."""
     name: str
     course_id: int
     event_id: Optional[int] = None
@@ -26,20 +25,10 @@ class UpdateStudyCircleRequest(BaseModel):
 
 
 class AddMemberRequest(BaseModel):
-    """A single member to add to a study circle."""
+    """Payload for adding a single member to a study circle."""
     person_id: int
-    role: AttendanceRole 
+    role: AttendanceRole
     status: MemberStatus = MemberStatus.ACTIVE
-
-
-class AddStudyCircleMembersRequest(BaseModel):
-    """Payload for adding multiple members to a study circle at once."""
-    members: list[AddMemberRequest]
-
-
-class RemoveStudyCircleMembersRequest(BaseModel):
-    """Payload for removing multiple members from a study circle at once."""
-    member_ids: list[int]
 
 
 class UpdateStudyCircleMemberRequest(BaseModel):
@@ -77,7 +66,7 @@ class SessionAttendanceRecordRequest(BaseModel):
 
 class StudyCircleMemberResponse(BaseModel):
     """A member's record within a study circle."""
-    id: int  
+    id: int
     person_id: int
     name: str
     role: AttendanceRole

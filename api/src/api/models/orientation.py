@@ -9,24 +9,17 @@ from tables.orientation import OrientationGroupStatus, OrientationParticipantRol
 
 
 class GenerateOrientationGroupsRequest(BaseModel):
-    """Payload for triggering automatic orientation-group generation.
-    """
+    """Payload for triggering automatic orientation-group generation."""
     min_participants: Optional[int] = None
     max_participants: Optional[int] = None
     min_facilitators: int = 1
 
 
 class OrientationGroupAssignmentRequest(BaseModel):
-    """A single participant-to-group mapping."""
-    participant_id: int               
-    group_id: int                     
-    role: OrientationParticipantRole  
-
-
-class BulkOrientationAssignmentRequest(BaseModel):
-    """Payload for assigning or reassigning multiple participants to orientation
-    groups at once."""
-    assignments: list[OrientationGroupAssignmentRequest]
+    """Payload for assigning or reassigning a single participant to an orientation group."""
+    participant_id: int
+    group_id: int
+    role: OrientationParticipantRole
 
 
 class UpdateOrientationGroupRequest(BaseModel):
@@ -38,7 +31,7 @@ class UpdateOrientationGroupRequest(BaseModel):
 class OrientationParticipantResponse(BaseModel):
     """A participant's membership record within an orientation group."""
     orientation_participant_id: int
-    participant_id: int  
+    participant_id: int
     name: str
     role: OrientationParticipantRole
 
